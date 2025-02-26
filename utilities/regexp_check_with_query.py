@@ -1,27 +1,72 @@
 import re
 
-QUESTIONS = [
-    ("(измен\\w*|друг\\w*|в связи с изменен\\w*) (фамили\\w*|им\\w*|отчеств\\w*|данн\\w*) (пасп[оа]рт|в пасп[оа]рте) ?(как|как можно|как мне)? ?(заменить|сделать|получить|заказать|оформить)? ?(новый)?", "0.0"),
-    ("(измен\\w*|друг\\w*|в связи с изменен\\w*) (фамили\\w*|им\\w*|отчеств\\w*|данн\\w*) ?(как|ка1к можно|как мне)? ?(заменить|сделать|получить|заказать|оформить)? ?(новый)? ?(пасп[оа]рт|в пасп[оа]рте)", "0.0"),
-    ("(фамили\\w*|им\\w*|отчеств\\w*|данн\\w*) (измен\\w*|друг\\w*|в связи с изменен\\w*) (пасп[оа]рт|в пасп[оа]рте) ?(как|как можно|как мне)? ?(заменить|сделать|получить|заказать|оформить)? ?(новый)?", "0.0"),
-    ("(фамили\\w*|им\\w*|отчеств\\w*|данн\\w*) (измен\\w*|друг\\w*|в связи с изменен\\w*) ?(как|как можно|как мне)? ?(заменить|сделать|получить|заказать|оформить)? ?(новый)? ?(пасп[оа]рт|в пасп[оа]рте)", "0.0"),
-    ("(как|как можно)? ?(заменить|сделать|получить|заказать|оформить)? ?(новый)? ?(пасп[оа]рт|в пасп[оа]рте) (измен\\w*|друг\\w*|в связи с изменен\\w*) (фамили\\w*|им\\w*|отчеств\\w*|данн\\w*)", "0.0"),
-]
 
-test_phrases = [
-    # "изменил имя паспорт",
-    # "фамилию изменил в паспорте",
-    # "как заменить паспорт изменилось отчество",
-    # "изменилась фамилия паспорт",
-    "изменились данные паспорт новый",
-]
+def check_regexp_with_queries(
+        regular_expressions: list[tuple[str]] | list[tuple[str, str]],
+        queries: list[str]) -> None:
+    QUESTIONS = regular_expressions
+    test_phrases = queries
 
-for q in QUESTIONS:
     for test_phrase in test_phrases:
-        if re.search(q[0], test_phrase, flags=re.U):
-            print(f"Regular Expression: {q}\n"
-                  f"Test Phrase: {test_phrase}\n"
-                  f"Result: OK\n\n")
-        print(f"Regular Expression: {q}\n"
-              f"Test Phrase: {test_phrase}\n"
-              f"Result: NOT FOUND !!!\n\n")
+        found_flag = False
+        for q in QUESTIONS:
+            subquestions = None
+            subsubquestions = None
+
+            if re.search(q[0], test_phrase, flags=re.U):
+                found_flag = True
+                print(f"Test Phrase: {test_phrase}\n"
+                      f"Regular Expression: {q}\n"
+                      f"Result: Base Question - OK ✅ \n"
+                      f"len(q): {len(q)}\n"
+                      f"Action: Playback q[1]: '{q[1]}' \n\n")
+                # continue
+            # else:
+            #     print(f"Test Phrase: {test_phrase}\n"
+            #           f"Regular Expression: {q}\n"
+            #           f"len(q): {len(q)}\n"
+            #           f"Result: NOT FOUND IN QUESTION!!! 🚫\n\n")
+
+            if len(q) == 3:
+                subquestions = q[2]
+                # print(f"Regular Sub Expression: {subquestions}")
+
+            if subquestions:
+                for subq in subquestions:  # Sub questions in q[2]
+                    if re.search(subq[0], test_phrase, flags=re.U):
+                        found_flag = True
+                        print(f"Test Phrase: {test_phrase}\n"
+                              f"Regular Sub Expression: {subq}\n"
+                              f"Result: Sub Question - OK ✅✅ \n"
+                              f"len(subq): {len(subq)}\n"
+                              f"Action: Play sub_q[1]: '{subq[1]}' \n\n")
+                        # continue
+                    # else:
+                    #     print(f"Test Phrase: {test_phrase}\n"
+                    #           f"Regular Sub Expression: {subq}\n"
+                    #           f"len(subq): {len(subq)}\n"
+                    #           f"Result: NOT FOUND IN SUB QUESTION!!! 🚫🚫\n\n")
+
+                    if len(subq) == 3:
+                        subsubquestions = subq[2]
+                        # print(f"Regular Sub Sub Expression: {subsubquestions}")
+
+                    if subsubquestions:
+                        for subsubq in subsubquestions:  # Sub sub questions in q[2]
+                            if re.search(subsubq[0], test_phrase, flags=re.U):
+                                found_flag = True
+                                print(f"Test Phrase: {test_phrase}\n"
+                                      f"Regular Expression: {q}\n"
+                                      f"Result: Sub Sub Question - OK ✅✅✅ \n"
+                                      f"len(subsubq): {len(subsubq)}\n"
+                                      f"Action: Play sub_sub_q[1]: '{subsubq[1]}' \n\n")
+                                # continue
+                            # else:
+                            #     print(f"Test Phrase: {test_phrase}\n"
+                            #           f"Regular Sub Sub Expression: {subq}\n"
+                            #           f"len(subsubq): {len(subsubq)}\n"
+                            #           f"Result: NOT FOUND IN SUB SUB QUESTION!!! 🚫🚫🚫\n\n")
+
+        if not found_flag:
+            print(f"Test Phrase: {test_phrase}\n"
+                  f"Result: NOT FOUND !!! ❌❌❌❌❌ \n\n")
