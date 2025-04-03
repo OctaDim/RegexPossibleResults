@@ -8,6 +8,7 @@ def check_regexp_with_queries(
     test_phrases = queries
 
     for test_phrase in test_phrases:
+        test_phrase = test_phrase.lower()
         found_flag = False
         for q in QUESTIONS:
             subquestions = None
