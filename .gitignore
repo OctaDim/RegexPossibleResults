@@ -2,6 +2,7 @@ not_public/
 not_for_git/
 .idea/
 
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -126,17 +127,21 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv*
 env/
 venv/
+venv27/
+.venv27/
+.venv*/
 ENV/
 env.bak/
 venv.bak/
 
-# Spyder project config
+# Spyder project configs
 .spyderproject
 .spyproject
 
-# Rope project config
+# Rope project configs
 .ropeproject
 
 # mkdocs documentation
@@ -200,15 +205,33 @@ Media/
 .Back*
 .ToDo*
 .Test*
-Test*.py
-Example*.py
+.Note*
 
-zBackUp
-zExamples
-zTest
+zTest*.py
+zExample*.py
 
-/zBackUp/*
-/zExamples/*
-/zTest/*
+zBackUp/
+zExamples/
+zTest/
+zNotes/
+zTestNotes
 
+zBackUp/*
+zExamples/*
+zTest/*
+zTestNotes/*
+zDoc/*
+zNotes/*
+
+zTest*/
+zTestNotes*/
+zBackUp*/
+zExamples*/
+zDoc*/
+zNotes*/
+
+actions_results
 ___*.*
+
+
+/*vosk-models*/*
