@@ -5,12 +5,13 @@ from utilities.regexp_check_with_query import check_regexp_with_queries
 
 
 QUESTIONS = [
-    (r"xxx", "0"),
-    (r"(не поня\w*|непонят\w*)? ?(как\w*)? ?адрес\w*", "0.0")
+    (r"какой адрес|какой", "0"),
 ]
 
 
 test_phrases = [
+    "какой",
+    "какой какой",
     "адрес",
     "какой адрес",
     "не пон адрес",
